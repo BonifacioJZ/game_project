@@ -83,7 +83,7 @@ public class PlatformController {
         return new ResponseEntity<>(Response.builder()
                 .status(String.valueOf(HttpStatus.OK))
                 .success(true)
-                .message("Plataforma")
+                .message("Plataforma con el id ".concat(String.valueOf(id)))
                 .data(data)
                 .build(),HttpStatus.OK);
     }

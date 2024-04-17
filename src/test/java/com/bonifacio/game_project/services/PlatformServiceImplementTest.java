@@ -6,7 +6,7 @@ import com.bonifacio.game_project.dtos.PlatformDetailDto;
 import com.bonifacio.game_project.entities.Plataform;
 import com.bonifacio.game_project.mappers.PlatformMapper;
 import com.bonifacio.game_project.mappers.PlataformMapperImplement;
-import com.bonifacio.game_project.repository.PlataformRepository;
+import com.bonifacio.game_project.repository.PlatformRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ class PlatformServiceImplementTest {
     PlatformMapper plataformMapper;
 
     @Mock
-    PlataformRepository plataformRepository;
+    PlatformRepository plataformRepository;
     @InjectMocks
     PlatformServiceImplement platformServiceImplement;
 

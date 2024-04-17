@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bonifacio.game_project.entities.Plataform;
 
-public interface PlataformRepository extends JpaRepository<Plataform,UUID> {
+public interface PlatformRepository extends JpaRepository<Plataform,UUID> {
 
 }

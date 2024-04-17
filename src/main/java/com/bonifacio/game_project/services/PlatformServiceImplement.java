@@ -5,25 +5,25 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import com.bonifacio.game_project.dtos.PlatformDetailDto;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 
 import com.bonifacio.game_project.dtos.PlataformInDto;
 import com.bonifacio.game_project.dtos.PlataformOutDto;
 import com.bonifacio.game_project.entities.Plataform;
 import com.bonifacio.game_project.mappers.PlatformMapper;
-import com.bonifacio.game_project.repository.PlataformRepository;
+import com.bonifacio.game_project.repository.PlatformRepository;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class PlatformServiceImplement implements PlataformService {
     
 
     private final PlatformMapper plataformMapper;
-    private final PlataformRepository plataformRepository;
+    private final PlatformRepository plataformRepository;
 
     @Autowired
-    public PlatformServiceImplement(PlatformMapper plataformMapper, PlataformRepository plataformRepository) {
+    public PlatformServiceImplement(PlatformMapper plataformMapper, PlatformRepository plataformRepository) {
         this.plataformMapper = plataformMapper;
         this.plataformRepository = plataformRepository;
     }

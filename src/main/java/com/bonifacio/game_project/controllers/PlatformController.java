@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.UUID;
 
-@RequestMapping(value = {"api/v1/plataform",})
+@RequestMapping(value = {"api/v1/platform",})
 @RestController
 @AllArgsConstructor
 public class PlatformController {

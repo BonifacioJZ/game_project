@@ -1,0 +1,14 @@
+services:
+  db:
+    container_name: postgres_db
+    image: postgres:bookworm
+    restart: always
+    hostname: postgres_db2
+    ports:
+      - ${LOCAL_PORT_DB}:${DOCKER_PORT_DB}
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - ~Documents/docker-vol/postgres-volume2/data1:/var/lib/postgres/data/

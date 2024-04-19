@@ -31,6 +31,8 @@ public class ClassificationServiceImplement implements ClassificationService{
 
     @Override
     public Classification save(ClassificationInDto classificationInDto) {
-        return null;
+        var data = classificationMapper.classificationInDtoToClassification(classificationInDto);
+        if(data ==null) return null;
+        return classificationRepository.save(data);
     }
 }

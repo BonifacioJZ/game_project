@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Table(name = "classifications")
 @AllArgsConstructor
 @Data
+@Builder
 public class Classification {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

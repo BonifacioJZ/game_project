@@ -1,20 +1,20 @@
-package com.bonifacio.game_project.dtos;
+package com.bonifacio.game_project.dtos.classification_system;
 
-import java.util.UUID;
-import java.time.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
+import java.time.Instant;
+import java.util.UUID;
+
 @Getter
+@AllArgsConstructor
 @Builder
-public class PlataformOutDto {
+public class CSOutDto {
     private final UUID id;
     private final String name;
     private final String description;
-    private final String guardName;
-    private final LocalDate realiceDate;
+    private final String  places;
     private final Instant createAt;
     private final Instant updateAt;
 }

@@ -1,6 +1,5 @@
-package com.bonifacio.game_project.dtos;
+package com.bonifacio.game_project.dtos.video_game;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

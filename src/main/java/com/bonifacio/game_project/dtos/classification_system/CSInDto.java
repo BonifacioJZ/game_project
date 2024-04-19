@@ -1,29 +1,24 @@
-package com.bonifacio.game_project.dtos;
-
-import java.time.LocalDate;
+package com.bonifacio.game_project.dtos.classification_system;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
-@Getter
 @Builder
-public class PlataformInDto {
+@Getter
+@AllArgsConstructor
+public class CSInDto {
     @NotBlank
     @NotEmpty
     @Size(max = 150)
     private final String name;
     @Size(max = 500)
-    private final String  description;
-    @NotBlank
+    private final String descriptions;
     @NotEmpty
-    @Size(max = 4,min = 2)
-    private final String guardName;
-    @NotNull
-    private final LocalDate realiceDate;
+    @NotBlank
+    @Size(max = 250)
+    private final String places;
 }

@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.bonifacio.game_project.dtos.PlataformInDto;
+import com.bonifacio.game_project.dtos.platform.PlataformInDto;
 import com.bonifacio.game_project.dtos.Response;
-import com.bonifacio.game_project.services.PlataformService;
+import com.bonifacio.game_project.services.platform.PlataformService;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

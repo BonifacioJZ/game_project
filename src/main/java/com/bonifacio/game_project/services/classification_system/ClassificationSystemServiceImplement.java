@@ -1,9 +1,9 @@
-package com.bonifacio.game_project.services;
+package com.bonifacio.game_project.services.classification_system;
 
-import com.bonifacio.game_project.dtos.CSInDto;
-import com.bonifacio.game_project.dtos.CSOutDto;
+import com.bonifacio.game_project.dtos.classification_system.CSInDto;
+import com.bonifacio.game_project.dtos.classification_system.CSOutDto;
 import com.bonifacio.game_project.entities.ClassificationSystem;
-import com.bonifacio.game_project.mappers.ClassificationSystemMapper;
+import com.bonifacio.game_project.mappers.classification_system.ClassificationSystemMapper;
 import com.bonifacio.game_project.repository.ClassificationSystemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

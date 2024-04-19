@@ -1,8 +1,8 @@
 package com.bonifacio.game_project.controllers;
 
 import com.bonifacio.game_project.dtos.Response;
-import com.bonifacio.game_project.dtos.VideoGameInDto;
-import com.bonifacio.game_project.services.VideoGameService;
+import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
+import com.bonifacio.game_project.services.video_game.VideoGameService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

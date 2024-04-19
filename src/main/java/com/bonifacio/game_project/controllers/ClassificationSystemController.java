@@ -1,8 +1,8 @@
 package com.bonifacio.game_project.controllers;
 
-import com.bonifacio.game_project.dtos.CSInDto;
+import com.bonifacio.game_project.dtos.classification_system.CSInDto;
 import com.bonifacio.game_project.dtos.Response;
-import com.bonifacio.game_project.services.ClassificationSystemService;
+import com.bonifacio.game_project.services.classification_system.ClassificationSystemService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

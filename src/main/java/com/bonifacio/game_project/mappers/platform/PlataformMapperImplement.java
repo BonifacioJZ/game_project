@@ -1,10 +1,10 @@
-package com.bonifacio.game_project.mappers;
+package com.bonifacio.game_project.mappers.platform;
 
-import com.bonifacio.game_project.dtos.PlatformDetailDto;
+import com.bonifacio.game_project.dtos.platform.PlatformDetailDto;
 import org.springframework.stereotype.Component;
 
-import com.bonifacio.game_project.dtos.PlataformInDto;
-import com.bonifacio.game_project.dtos.PlataformOutDto;
+import com.bonifacio.game_project.dtos.platform.PlataformInDto;
+import com.bonifacio.game_project.dtos.platform.PlataformOutDto;
 import com.bonifacio.game_project.entities.Plataform;
 
 @Component

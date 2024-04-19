@@ -1,4 +1,4 @@
-package com.bonifacio.game_project.dtos;
+package com.bonifacio.game_project.dtos.video_game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

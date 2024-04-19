@@ -1,9 +1,9 @@
-package com.bonifacio.game_project.services;
+package com.bonifacio.game_project.services.video_game;
 
-import com.bonifacio.game_project.dtos.VideoGameInDto;
-import com.bonifacio.game_project.dtos.VideoGameOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
 import com.bonifacio.game_project.entities.VideoGame;
-import com.bonifacio.game_project.mappers.VideoGameMapper;
+import com.bonifacio.game_project.mappers.video_game.VideoGameMapper;
 import com.bonifacio.game_project.repository.VideoGameRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

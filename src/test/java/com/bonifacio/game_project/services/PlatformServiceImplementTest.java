@@ -1,12 +1,13 @@
 package com.bonifacio.game_project.services;
 
-import com.bonifacio.game_project.dtos.PlataformInDto;
-import com.bonifacio.game_project.dtos.PlataformOutDto;
-import com.bonifacio.game_project.dtos.PlatformDetailDto;
+import com.bonifacio.game_project.dtos.platform.PlataformInDto;
+import com.bonifacio.game_project.dtos.platform.PlataformOutDto;
+import com.bonifacio.game_project.dtos.platform.PlatformDetailDto;
 import com.bonifacio.game_project.entities.Plataform;
-import com.bonifacio.game_project.mappers.PlatformMapper;
-import com.bonifacio.game_project.mappers.PlataformMapperImplement;
+import com.bonifacio.game_project.mappers.platform.PlatformMapper;
+import com.bonifacio.game_project.mappers.platform.PlataformMapperImplement;
 import com.bonifacio.game_project.repository.PlatformRepository;
+import com.bonifacio.game_project.services.platform.PlatformServiceImplement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

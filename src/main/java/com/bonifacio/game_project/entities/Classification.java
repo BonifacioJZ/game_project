@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
+@NoArgsConstructor
 public class Classification {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,6 +35,9 @@ public class Classification {
     private String classification;
     @Size(max = 500)
     private String description;
+    @JoinColumn(name = "classification_system_id")
+    @ManyToOne(targetEntity = ClassificationSystem.class)
+    private ClassificationSystem classificationSystem;
     @CreationTimestamp
     private Instant createAt;
     @UpdateTimestamp

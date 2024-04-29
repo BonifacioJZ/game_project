@@ -1,5 +1,6 @@
 package com.bonifacio.game_project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -38,6 +40,10 @@ public class ClassificationSystem {
     @Size(max = 250)
     @Column()
     private String places;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "classification_system_id")
+    private Set<Classification> classificationList;
     @CreationTimestamp
     private Instant createAt;
     @UpdateTimestamp

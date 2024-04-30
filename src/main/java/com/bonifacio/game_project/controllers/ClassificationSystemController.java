@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = {"api/v1/classification_system"})
 @AllArgsConstructor
@@ -62,6 +64,24 @@ public class ClassificationSystemController {
                     .data(e.getMessage())
                     .build(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @RequestMapping(method = RequestMethod.GET,value = {"{id}","{id}/"})
+    public ResponseEntity<Response<?>> show(@PathVariable UUID id){
+        var data = csService.show(id);
+        if (data==null){
+            return new ResponseEntity<>(Response.builder()
+                    .success(false)
+                    .message("el id ".concat(String.valueOf(id)).concat(" no existe"))
+                    .status(String.valueOf(HttpStatus.NOT_FOUND))
+                    .data(null)
+                    .build(),HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(Response.builder()
+                .success(true)
+                .status(String.valueOf(HttpStatus.OK))
+                .message("Sistema de clasficacion")
+                .data(data)
+                .build(),HttpStatus.OK);
     }
 
 }

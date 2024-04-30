@@ -43,6 +43,7 @@ public class ClassificationMapperImplement implements ClassificationMapper{
                 .builder()
                 .name(classification.getName())
                 .description(classification.getDescription())
+                .classification(classification.getClassification())
                 .id(classification.getId())
                 .system_id(classification.getClassificationSystem().getId())
                 .system_name(classification.getClassificationSystem().getName())

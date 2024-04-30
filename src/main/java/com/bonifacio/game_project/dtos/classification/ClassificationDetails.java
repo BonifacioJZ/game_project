@@ -12,6 +12,7 @@ public class ClassificationDetails {
     private final UUID id;
     private final String name;
     private final String description;
+    private final String classification;
     private final UUID system_id;
     private final String system_name;
     private final String system_description;

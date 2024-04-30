@@ -59,7 +59,6 @@ public class ClassificationServiceImplement implements ClassificationService{
         if(data.isEmpty()) return null;
 
         var map = classificationMapper.classificationUpdate(classification,data.get());
-        if(map == null) return null;
 
         if(map.getClassificationSystem().getId()!= classification.getClassification_id()){
             var cs = csRepository.findById(classification.getClassification_id());

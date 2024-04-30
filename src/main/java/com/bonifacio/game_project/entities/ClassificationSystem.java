@@ -13,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,7 +44,7 @@ public class ClassificationSystem {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "classification_system_id")
-    private Set<Classification> classificationList;
+    private List<Classification> classificationList;
     @CreationTimestamp
     private Instant createAt;
     @UpdateTimestamp

@@ -46,9 +46,11 @@ public class ClassificationSystemServiceImplement implements ClassificationSyste
         var data = csRepository.findById(id);
         if(data.isEmpty()) return null;
         ArrayList<ClassificationOutDto> outDtos = new ArrayList<>();
-        data.get().getClassificationList().forEach(classification -> {
-            outDtos.add(classificationMapper.classificationToClassificationOutDto(classification));
-        });
+        if(data.get().getClassificationList()!=null){
+            data.get().getClassificationList().forEach(classification -> {
+                outDtos.add(classificationMapper.classificationToClassificationOutDto(classification));
+            });
+        }
         return csMapper.classificationSystemToCSDetails(data.get(),outDtos);
     }
 

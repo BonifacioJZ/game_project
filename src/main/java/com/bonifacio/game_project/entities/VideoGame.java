@@ -21,9 +21,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "video_games")
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class VideoGame {
     @Id
@@ -48,8 +47,9 @@ public class VideoGame {
     },fetch = FetchType.LAZY)
     @JoinTable(name = "video_game_classification",joinColumns={@JoinColumn(name = "fk_video_game")},
             inverseJoinColumns = {@JoinColumn(name = "fk_classification")} )
-    private Set<Classification> classifications = new HashSet<>();
+    private Set<Classification> classifications;
     @Column
+    @Lob
     private String image;
     @Column(name = "create_at")
     @CreationTimestamp
@@ -57,4 +57,16 @@ public class VideoGame {
     @Column(name = "update_at")
     @UpdateTimestamp
     private Instant updateAt;
+
+    public VideoGame(){
+
+    }
+
+    public void addClassification(Classification classification){
+        if(this.classifications == null){
+            classifications = new HashSet<>();
+        }
+        this.classifications.add(classification);
+        classification.getVideoGames().add(this);
+    }
 }

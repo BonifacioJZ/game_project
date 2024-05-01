@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,7 +16,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "classifications")
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 public class Classification {
@@ -41,9 +39,15 @@ public class Classification {
     @ManyToOne(targetEntity = ClassificationSystem.class)
     private ClassificationSystem classificationSystem;
     @ManyToMany(mappedBy = "classifications")
-    private Set<VideoGame> videoGames = new HashSet<>();
+    private Set<VideoGame> videoGames;
     @CreationTimestamp
     private Instant createAt;
     @UpdateTimestamp
     private Instant updateAt;
+
+    public void addVideoGame(VideoGame videoGame){
+        if(this.getVideoGames()==null)  videoGames = new HashSet<>();
+        this.getVideoGames().add(videoGame);
+        videoGame.getClassifications().add(this);
+    }
 }

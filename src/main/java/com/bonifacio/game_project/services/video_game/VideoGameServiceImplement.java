@@ -2,23 +2,28 @@ package com.bonifacio.game_project.services.video_game;
 
 import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
 import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
+import com.bonifacio.game_project.entities.Classification;
 import com.bonifacio.game_project.entities.VideoGame;
 import com.bonifacio.game_project.mappers.video_game.VideoGameMapper;
+import com.bonifacio.game_project.repository.ClassificationRepository;
 import com.bonifacio.game_project.repository.VideoGameRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 @AllArgsConstructor
 public class VideoGameServiceImplement implements VideoGameService {
     @Autowired
     private final VideoGameRepository videoGameRepository;
     @Autowired
     private final VideoGameMapper videoGameMapper;
+    @Autowired
+    private final ClassificationRepository classificationRepository;
 
     @Override
     public List<VideoGameOutDto> findAll() {
@@ -36,7 +41,10 @@ public class VideoGameServiceImplement implements VideoGameService {
         var data = videoGameMapper.videoGameInDtoToVideoGame(videoGameInDto);
 
         if(videoGameInDto == null) return null;
-
+        videoGameInDto.getClassification_id().forEach(classi->{
+            var classification = classificationRepository.findById(classi).orElse(null);
+            data.addClassification(classification);
+        });
         return  videoGameRepository.save(data);
     }
 }

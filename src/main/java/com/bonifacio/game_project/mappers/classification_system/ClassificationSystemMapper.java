@@ -14,4 +14,5 @@ public interface ClassificationSystemMapper {
     CSOutDto classificationSystemToCSOutDto(ClassificationSystem classificationSystem);
     ClassificationSystem csInDtoToClassificationSystem(CSInDto classificationSystem);
     CSDetails classificationSystemToCSDetails(ClassificationSystem classificationSystem, List<ClassificationOutDto> classifications);
+    ClassificationSystem updateCS(ClassificationSystem classificationSystem,CSInDto csInDto);
 }

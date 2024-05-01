@@ -1,5 +1,6 @@
 package com.bonifacio.game_project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,6 +15,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -38,7 +41,14 @@ public class VideoGame {
     @Column(name = "realise_date")
     private LocalDate realiseDate;
     //private Set<Gender> genders;
-    //private Set<Classification> classifications;
+    @JsonIgnore
+    @ManyToMany(targetEntity = Classification.class, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    },fetch = FetchType.LAZY)
+    @JoinTable(name = "video_game_classification",joinColumns={@JoinColumn(name = "fk_video_game")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_classification")} )
+    private Set<Classification> classifications = new HashSet<>();
     @Column
     private String image;
     @Column(name = "create_at")

@@ -5,6 +5,7 @@ import com.bonifacio.game_project.dtos.classification_system.CSDetails;
 import com.bonifacio.game_project.dtos.classification_system.CSInDto;
 import com.bonifacio.game_project.dtos.classification_system.CSOutDto;
 import com.bonifacio.game_project.entities.ClassificationSystem;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,5 +50,17 @@ public class ClassificationSystemMapperImplement implements ClassificationSystem
                 .updateAt(classificationSystem.getUpdateAt())
                 .classification(classifications)
                 .build();
+    }
+
+    @Override
+    public ClassificationSystem updateCS(ClassificationSystem classificationSystem, CSInDto csInDto) {
+        if(classificationSystem==null||csInDto==null) return null;
+        classificationSystem.setName((StringUtils.isEmpty(csInDto.getName()))?
+                classificationSystem.getName(): csInDto.getName());
+        classificationSystem.setDescriptions((StringUtils.isEmpty(csInDto.getDescriptions()))?
+                classificationSystem.getDescriptions():csInDto.getDescriptions());
+        classificationSystem.setPlaces((StringUtils.isEmpty(csInDto.getPlaces()))?
+                classificationSystem.getPlaces():csInDto.getPlaces());
+        return classificationSystem;
     }
 }

@@ -52,4 +52,18 @@ public class ClassificationSystemServiceImplement implements ClassificationSyste
         return csMapper.classificationSystemToCSDetails(data.get(),outDtos);
     }
 
+    @Override
+    public CSOutDto edit(UUID id, CSInDto csInDto) {
+        var data = csRepository.findById(id);
+        if(data.isEmpty()) return null;
+        var cs = csMapper.updateCS(data.get(),csInDto);
+        return csMapper.classificationSystemToCSOutDto(csRepository.save(cs));
+
+    }
+
+    @Override
+    public void delete(UUID id) {
+        csRepository.deleteById(id);
+    }
+
 }

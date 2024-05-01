@@ -12,4 +12,6 @@ public interface ClassificationSystemService {
     List<CSOutDto> findAll();
     ClassificationSystem save(CSInDto csInDto);
     CSDetails show(UUID id);
+    CSOutDto edit(UUID id,CSInDto csInDto);
+    void delete(UUID id);
 }

@@ -12,6 +12,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -38,6 +40,8 @@ public class Classification {
     @JoinColumn(name = "classification_system_id")
     @ManyToOne(targetEntity = ClassificationSystem.class)
     private ClassificationSystem classificationSystem;
+    @ManyToMany(mappedBy = "classifications")
+    private Set<VideoGame> videoGames = new HashSet<>();
     @CreationTimestamp
     private Instant createAt;
     @UpdateTimestamp

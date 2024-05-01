@@ -3,6 +3,7 @@ package com.bonifacio.game_project.controllers;
 import com.bonifacio.game_project.dtos.classification_system.CSInDto;
 import com.bonifacio.game_project.dtos.Response;
 import com.bonifacio.game_project.services.classification_system.ClassificationSystemService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,54 @@ public class ClassificationSystemController {
                 .status(String.valueOf(HttpStatus.OK))
                 .message("Sistema de clasficacion")
                 .data(data)
+                .build(),HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT,value = {"{id}","{id}/"})
+    @Transactional
+    public ResponseEntity<Response<?>> edit(@Valid @RequestBody CSInDto csInDto,
+                                            BindingResult result,@PathVariable UUID id){
+        try{
+            if(result.hasErrors()) return new ResponseEntity<>(Response
+                    .builder()
+                    .success(false)
+                    .message("Erro en la validacion")
+                    .status(String.valueOf(HttpStatus.BAD_REQUEST))
+                    .data(null)
+                    .build(),HttpStatus.BAD_REQUEST);
+            var data = csService.edit(id,csInDto);
+            if(data==null)return new ResponseEntity<>(Response.builder()
+                    .success(false)
+                    .message("Error al Guardar")
+                    .status(String.valueOf(HttpStatus.BAD_REQUEST))
+                    .data(null)
+                    .build(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Response
+                    .builder()
+                    .success(true)
+                    .message("Actualizado")
+                    .status(String.valueOf(HttpStatus.OK))
+                    .data(data)
+                    .build(),HttpStatus.OK);
+        }catch (Exception e){
+            return  new ResponseEntity<>(Response
+                    .builder()
+                    .success(true)
+                    .message(e.getMessage())
+                    .status(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR))
+                    .data(e.getMessage())
+                    .build(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @RequestMapping(method = RequestMethod.DELETE,value = {"{id}","{id}/"})
+    public ResponseEntity<Response<?>> delete(@PathVariable UUID id){
+        csService.delete(id);
+        return new ResponseEntity<>(Response
+                .builder()
+                .success(true)
+                .message("Eliminado")
+                .status(String.valueOf(HttpStatus.OK))
+                .data(1)
                 .build(),HttpStatus.OK);
     }
 

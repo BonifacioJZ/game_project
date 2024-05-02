@@ -1,21 +1,23 @@
 package com.bonifacio.game_project.services.video_game;
 
+import com.bonifacio.game_project.dtos.classification.ClassificationOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameDetails;
 import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
 import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
-import com.bonifacio.game_project.entities.Classification;
 import com.bonifacio.game_project.entities.VideoGame;
+import com.bonifacio.game_project.mappers.classification.ClassificationMapper;
 import com.bonifacio.game_project.mappers.video_game.VideoGameMapper;
 import com.bonifacio.game_project.repository.ClassificationRepository;
 import com.bonifacio.game_project.repository.VideoGameRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Component
+@Service
 @AllArgsConstructor
 public class VideoGameServiceImplement implements VideoGameService {
     @Autowired
@@ -24,6 +26,8 @@ public class VideoGameServiceImplement implements VideoGameService {
     private final VideoGameMapper videoGameMapper;
     @Autowired
     private final ClassificationRepository classificationRepository;
+    @Autowired
+    private final ClassificationMapper classificationMapper;
 
     @Override
     public List<VideoGameOutDto> findAll() {
@@ -46,5 +50,22 @@ public class VideoGameServiceImplement implements VideoGameService {
             data.addClassification(classification);
         });
         return  videoGameRepository.save(data);
+    }
+
+    @Override
+    public VideoGameDetails show(UUID id) {
+        var data = videoGameRepository.findById(id).orElse(null);
+        if(data==null) return null;
+
+        ArrayList<ClassificationOutDto> classifications = new ArrayList<>();
+
+        if(!data.getClassifications().isEmpty()){
+            data.getClassifications().forEach(classification->{
+                classifications.add(classificationMapper.classificationToClassificationOutDto(classification));
+            });
+        }
+
+        return videoGameMapper.videoGameToVideoGameDetails(data,classifications);
+
     }
 }

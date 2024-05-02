@@ -1,9 +1,13 @@
 package com.bonifacio.game_project.mappers.video_game;
 
+import com.bonifacio.game_project.dtos.classification.ClassificationOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameDetails;
 import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
 import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
 import com.bonifacio.game_project.entities.VideoGame;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class VideoGameMapperImplement implements VideoGameMapper{
@@ -31,6 +35,22 @@ public class VideoGameMapperImplement implements VideoGameMapper{
                 .description(videoGameInDto.getDescription())
                 .realiseDate(videoGameInDto.getRealiseDate())
                 .image(videoGameInDto.getImage())
+                .build();
+    }
+
+    @Override
+    public VideoGameDetails videoGameToVideoGameDetails(VideoGame videoGames, List<ClassificationOutDto> classification) {
+        if(videoGames==null) return null;
+
+        return VideoGameDetails.builder()
+                .id(videoGames.getId())
+                .name(videoGames.getName())
+                .description(videoGames.getDescription())
+                .realiseDate(videoGames.getRealiseDate())
+                .image(videoGames.getImage())
+                .classifications(classification)
+                .updateAt(videoGames.getUpdateAt())
+                .createAt(videoGames.getCreateAt())
                 .build();
     }
 }

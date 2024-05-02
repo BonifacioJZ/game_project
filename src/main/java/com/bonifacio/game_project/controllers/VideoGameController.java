@@ -3,7 +3,6 @@ package com.bonifacio.game_project.controllers;
 import com.bonifacio.game_project.dtos.Response;
 import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
 import com.bonifacio.game_project.services.video_game.VideoGameService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "api/v1/video_game")
@@ -67,24 +64,5 @@ public class VideoGameController {
                     .data(e.getMessage())
                     .build(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-    @RequestMapping(method = RequestMethod.GET,value = {"{id}","{id}/"})
-    @Transactional
-    public ResponseEntity<Response<?>> show(@PathVariable UUID id){
-         var data = gameService.show(id);
-         if(data == null) return new ResponseEntity<>(Response.builder()
-                 .message("el video juego con id ".concat(String.valueOf(id)).concat(" no existe"))
-                 .success(true)
-                 .status(String.valueOf(HttpStatus.NOT_FOUND))
-                 .success(false)
-                 .data(data)
-                 .build(),HttpStatus.NOT_FOUND);
-
-         return new ResponseEntity<>(Response.builder()
-                 .message("Video Juego ".concat(data.getName()))
-                 .success(true)
-                 .status(String.valueOf(HttpStatus.OK))
-                 .data(data)
-                 .build(),HttpStatus.OK);
     }
 }

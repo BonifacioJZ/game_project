@@ -9,8 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -39,14 +39,14 @@ public class Classification {
     @ManyToOne(targetEntity = ClassificationSystem.class)
     private ClassificationSystem classificationSystem;
     @ManyToMany(mappedBy = "classifications")
-    private Set<VideoGame> videoGames;
+    private List<VideoGame> videoGames;
     @CreationTimestamp
     private Instant createAt;
     @UpdateTimestamp
     private Instant updateAt;
 
     public void addVideoGame(VideoGame videoGame){
-        if(this.getVideoGames()==null)  videoGames = new HashSet<>();
+        if(this.getVideoGames()==null)  videoGames = new ArrayList<>();
         this.getVideoGames().add(videoGame);
         videoGame.getClassifications().add(this);
     }

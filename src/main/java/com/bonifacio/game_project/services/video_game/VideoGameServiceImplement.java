@@ -4,6 +4,8 @@ import com.bonifacio.game_project.dtos.classification.ClassificationOutDto;
 import com.bonifacio.game_project.dtos.video_game.VideoGameDetails;
 import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
 import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameUpdateDto;
+import com.bonifacio.game_project.entities.Classification;
 import com.bonifacio.game_project.entities.VideoGame;
 import com.bonifacio.game_project.mappers.classification.ClassificationMapper;
 import com.bonifacio.game_project.mappers.video_game.VideoGameMapper;
@@ -13,9 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -67,5 +67,22 @@ public class VideoGameServiceImplement implements VideoGameService {
 
         return videoGameMapper.videoGameToVideoGameDetails(data,classifications);
 
+    }
+
+    @Override
+    public VideoGameOutDto edit(UUID id, VideoGameInDto videoGameInDto) {
+        var old = videoGameRepository.findById(id).orElse(null);
+        if(old ==null) return null;
+
+        old = videoGameMapper.videoGameUpdate(old,videoGameInDto);
+
+        var data = videoGameRepository.save(old);
+
+        return videoGameMapper.videoGameToVideoGameDto(data);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        videoGameRepository.deleteById(id);
     }
 }

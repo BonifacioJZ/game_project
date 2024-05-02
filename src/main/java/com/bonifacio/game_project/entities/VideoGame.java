@@ -9,14 +9,13 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -47,7 +46,7 @@ public class VideoGame {
     },fetch = FetchType.LAZY)
     @JoinTable(name = "video_game_classification",joinColumns={@JoinColumn(name = "fk_video_game")},
             inverseJoinColumns = {@JoinColumn(name = "fk_classification")} )
-    private Set<Classification> classifications;
+    private List<Classification> classifications;
     @Column
     @Lob
     private String image;
@@ -64,9 +63,10 @@ public class VideoGame {
 
     public void addClassification(Classification classification){
         if(this.classifications == null){
-            classifications = new HashSet<>();
+            classifications = new ArrayList<>();
         }
         this.classifications.add(classification);
         classification.getVideoGames().add(this);
     }
+
 }

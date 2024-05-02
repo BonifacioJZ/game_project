@@ -4,7 +4,9 @@ import com.bonifacio.game_project.dtos.classification.ClassificationOutDto;
 import com.bonifacio.game_project.dtos.video_game.VideoGameDetails;
 import com.bonifacio.game_project.dtos.video_game.VideoGameInDto;
 import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameUpdateDto;
 import com.bonifacio.game_project.entities.VideoGame;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -52,5 +54,21 @@ public class VideoGameMapperImplement implements VideoGameMapper{
                 .updateAt(videoGames.getUpdateAt())
                 .createAt(videoGames.getCreateAt())
                 .build();
+    }
+
+    @Override
+    public VideoGame videoGameUpdate(VideoGame videoGame, VideoGameInDto videoGameInDto) {
+        if(videoGame == null) return null;
+
+        videoGame.setName((StringUtils.isEmpty(videoGameInDto.getName()))?
+                videoGame.getName():videoGameInDto.getName());
+        videoGame.setDescription((StringUtils.isEmpty(videoGameInDto.getDescription()))?
+                videoGame.getDescription():videoGameInDto.getDescription());
+        videoGame.setImage((StringUtils.isEmpty(videoGameInDto.getImage()))?
+                videoGame.getImage():videoGameInDto.getImage());
+        videoGame.setRealiseDate((videoGameInDto.getRealiseDate()==null)?
+                videoGame.getRealiseDate():videoGameInDto.getRealiseDate());
+
+        return videoGame;
     }
 }

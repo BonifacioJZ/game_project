@@ -3,10 +3,12 @@ package com.bonifacio.game_project.mappers.classification;
 import com.bonifacio.game_project.dtos.classification.ClassificationDetails;
 import com.bonifacio.game_project.dtos.classification.ClassificationInDto;
 import com.bonifacio.game_project.dtos.classification.ClassificationOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
 import com.bonifacio.game_project.entities.Classification;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Component
@@ -36,7 +38,8 @@ public class ClassificationMapperImplement implements ClassificationMapper{
     }
 
     @Override
-    public ClassificationDetails clasificationToClassificationDetails(Classification classification) {
+    public ClassificationDetails clasificationToClassificationDetails(Classification classification,
+                                                                      ArrayList<VideoGameOutDto> videoGameOutDtos) {
         if(classification==null) return null;
 
         return ClassificationDetails
@@ -45,9 +48,12 @@ public class ClassificationMapperImplement implements ClassificationMapper{
                 .description(classification.getDescription())
                 .classification(classification.getClassification())
                 .id(classification.getId())
+                .updateAt(classification.getUpdateAt())
+                .createAt(classification.getCreateAt())
                 .system_id(classification.getClassificationSystem().getId())
                 .system_name(classification.getClassificationSystem().getName())
                 .system_description(classification.getClassificationSystem().getDescriptions())
+                .videoGames(videoGameOutDtos)
                 .build();
     }
 

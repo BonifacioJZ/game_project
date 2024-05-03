@@ -3,6 +3,7 @@ package com.bonifacio.game_project.services.classification;
 import com.bonifacio.game_project.dtos.classification.ClassificationDetails;
 import com.bonifacio.game_project.dtos.classification.ClassificationInDto;
 import com.bonifacio.game_project.dtos.classification.ClassificationOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
 import com.bonifacio.game_project.entities.Classification;
 import com.bonifacio.game_project.entities.ClassificationSystem;
 import com.bonifacio.game_project.mappers.classification.ClassificationMapper;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,6 +44,7 @@ class ClassificationServiceImplementTest {
     Classification update;
     UUID id;
     UUID csId;
+    ArrayList<VideoGameOutDto> videoGameOutDtos = new ArrayList<>();
     @BeforeEach
     void setUp()  {
         id= UUID.randomUUID();
@@ -80,6 +83,7 @@ class ClassificationServiceImplementTest {
                 .system_id(classification.getClassificationSystem().getId())
                 .system_name(classification.getClassificationSystem().getName())
                 .system_description(classification.getClassificationSystem().getDescriptions())
+                .videoGames(videoGameOutDtos)
                 .build();
         classificationDetailsUpdate = ClassificationDetails.builder()
                 .id(id)
@@ -138,8 +142,9 @@ class ClassificationServiceImplementTest {
                 .classification("E10")
                 .classification_id(csId)
                 .build();
+
         when(classificationMapper.classificationUpdate(in,classification)).thenReturn(update);
-        when(classificationMapper.clasificationToClassificationDetails(update)).thenReturn(classificationDetailsUpdate);
+        when(classificationMapper.clasificationToClassificationDetails(update,videoGameOutDtos)).thenReturn(classificationDetailsUpdate);
        // when(classificationServiceImplement.edit(id,in)).thenReturn(classificationDetailsUpdate);
         var result = classificationServiceImplement.edit(id,in);
         assertNotNull(result);

@@ -70,15 +70,27 @@ public class VideoGameServiceImplement implements VideoGameService {
     }
 
     @Override
-    public VideoGameOutDto edit(UUID id, VideoGameInDto videoGameInDto) {
+    public VideoGameDetails edit(UUID id, VideoGameInDto videoGameInDto) {
         var old = videoGameRepository.findById(id).orElse(null);
         if(old ==null) return null;
 
         old = videoGameMapper.videoGameUpdate(old,videoGameInDto);
-
+        ArrayList<Classification> classifications = new ArrayList<>();
+        if (!videoGameInDto.getClassification_id().isEmpty()){
+            videoGameInDto.getClassification_id().forEach(classification->{
+                var data = classificationRepository.findById(classification).orElse(null);
+                if(data!=null){
+                    classifications.add(data);
+                }
+            });
+            old.setClassifications(classifications);
+        }
         var data = videoGameRepository.save(old);
-
-        return videoGameMapper.videoGameToVideoGameDto(data);
+        ArrayList<ClassificationOutDto> classificationOutDtos = new ArrayList<>();
+        data.getClassifications().forEach(dtos->{
+            classificationOutDtos.add(classificationMapper.classificationToClassificationOutDto(dtos));
+        });
+        return videoGameMapper.videoGameToVideoGameDetails(data,classificationOutDtos);
     }
 
     @Override

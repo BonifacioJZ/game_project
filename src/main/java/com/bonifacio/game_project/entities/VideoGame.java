@@ -38,7 +38,14 @@ public class VideoGame {
     @NotNull
     @Column(name = "realise_date")
     private LocalDate realiseDate;
-    //private Set<Gender> genders;
+    @JsonIgnore
+    @ManyToMany(targetEntity = Gender.class,cascade = {
+            CascadeType.MERGE,
+            CascadeType.PERSIST
+    },fetch = FetchType.LAZY)
+    @JoinTable(name = "video_game_genders",joinColumns = {@JoinColumn(name = "fk_video_game")},
+    inverseJoinColumns = {@JoinColumn(name = "fk_gender")})
+    private List<Gender> genders;
     @JsonIgnore
     @ManyToMany(targetEntity = Classification.class, cascade = {
             CascadeType.PERSIST,

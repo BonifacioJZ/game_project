@@ -13,6 +13,6 @@ public interface VideoGameService {
     List<VideoGameOutDto> findAll();
     VideoGame save(VideoGameInDto videoGameInDto);
     VideoGameDetails show(UUID id);
-    VideoGameOutDto edit(UUID id , VideoGameInDto videoGameInDto);
+    VideoGameDetails edit(UUID id , VideoGameInDto videoGameInDto);
     void delete(UUID id);
 }

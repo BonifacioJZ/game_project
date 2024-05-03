@@ -3,8 +3,10 @@ package com.bonifacio.game_project.services.classification;
 import com.bonifacio.game_project.dtos.classification.ClassificationDetails;
 import com.bonifacio.game_project.dtos.classification.ClassificationInDto;
 import com.bonifacio.game_project.dtos.classification.ClassificationOutDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
 import com.bonifacio.game_project.entities.Classification;
 import com.bonifacio.game_project.mappers.classification.ClassificationMapper;
+import com.bonifacio.game_project.mappers.video_game.VideoGameMapper;
 import com.bonifacio.game_project.repository.ClassificationRepository;
 import com.bonifacio.game_project.repository.ClassificationSystemRepository;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,8 @@ public class ClassificationServiceImplement implements ClassificationService{
     private final ClassificationMapper classificationMapper;
     @Autowired
     private  final ClassificationSystemRepository csRepository;
+    @Autowired
+    private final VideoGameMapper videoGameMapper;
 
     @Override
     public List<ClassificationOutDto> findAll() {
@@ -48,8 +52,14 @@ public class ClassificationServiceImplement implements ClassificationService{
 
     @Override
     public ClassificationDetails show(UUID id) {
-        var data = classificationRepository.findById(id);
-        return data.map(classificationMapper::clasificationToClassificationDetails).orElse(null);
+        var data = classificationRepository.findById(id).orElse(null);
+        ArrayList<VideoGameOutDto> videoGameOutDtos = new ArrayList<>();
+        if(data.getVideoGames()!=null){
+            data.getVideoGames().forEach(videoGame -> {
+                videoGameOutDtos.add(videoGameMapper.videoGameToVideoGameDto(videoGame));
+            });
+        }
+        return classificationMapper.clasificationToClassificationDetails(data,videoGameOutDtos);
     }
 
     @Override
@@ -65,9 +75,15 @@ public class ClassificationServiceImplement implements ClassificationService{
             if(cs.isEmpty()) return null;
             map.setClassificationSystem(cs.get());
         }
-
         var out = classificationRepository.save(map);
-        return  classificationMapper.clasificationToClassificationDetails(out);
+        ArrayList<VideoGameOutDto> videoGameOutDtos = new ArrayList<>();
+        if(out.getVideoGames()!=null){
+            out.getVideoGames().forEach(videoGame -> {
+                videoGameOutDtos.add(videoGameMapper.videoGameToVideoGameDto(videoGame));
+            });
+        }
+
+        return  classificationMapper.clasificationToClassificationDetails(out,videoGameOutDtos);
     }
 
     @Override

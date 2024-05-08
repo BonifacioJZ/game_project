@@ -14,4 +14,5 @@ public interface GenderMapper {
     GenderOutDto genderToGenderOutDto(Gender gender);
     Gender genderInDtoToGender(GenderInDto genderInDto);
     GenderDetails genderToGenderDetails(Gender gender, List<VideoGameOutDto> videoGames);
+    Gender updateGender(Gender oldGender, GenderInDto gender);
 }

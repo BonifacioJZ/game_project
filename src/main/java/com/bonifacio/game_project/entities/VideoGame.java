@@ -54,6 +54,14 @@ public class VideoGame {
     @JoinTable(name = "video_game_classification",joinColumns={@JoinColumn(name = "fk_video_game")},
             inverseJoinColumns = {@JoinColumn(name = "fk_classification")} )
     private List<Classification> classifications;
+    @JsonIgnore
+    @ManyToMany(targetEntity = Plataform.class,cascade = {
+            CascadeType.MERGE,
+            CascadeType.PERSIST
+    },fetch = FetchType.LAZY)
+    @JoinTable(name = "video_game_platform",joinColumns = {@JoinColumn(name = "fk_video_game")},
+    inverseJoinColumns = {@JoinColumn(name = "fk_platform")})
+    private List<Plataform> platforms;
     @Column
     @Lob
     private String image;

@@ -4,6 +4,7 @@ import com.bonifacio.game_project.dtos.platform.PlataformInDto;
 import com.bonifacio.game_project.dtos.platform.PlataformOutDto;
 import com.bonifacio.game_project.dtos.platform.PlatformDetailDto;
 import com.bonifacio.game_project.entities.Plataform;
+import com.bonifacio.game_project.entities.VideoGame;
 import com.bonifacio.game_project.mappers.platform.PlatformMapper;
 import com.bonifacio.game_project.mappers.platform.PlataformMapperImplement;
 import com.bonifacio.game_project.repository.PlatformRepository;
@@ -16,15 +17,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 
 @ExtendWith(MockitoExtension.class)
 class PlatformServiceImplementTest {
@@ -42,6 +40,7 @@ class PlatformServiceImplementTest {
     private UUID id;
     private PlatformDetailDto platformDetailDto;
     private PlatformDetailDto platformDetailDto2;
+    private List<VideoGame> videoGameList = new ArrayList<>();
     @BeforeEach
     void setUp()  {
         id  = UUID.randomUUID();
@@ -51,6 +50,7 @@ class PlatformServiceImplementTest {
                 .name("Test")
                 .description("Este es un Test")
                 .guardName("Test")
+                .videoGames(videoGameList)
                 .realiseDate(LocalDate.of(1970,4,1))
                 .build();
         plataformOutDto = PlataformOutDto.builder()
@@ -73,6 +73,7 @@ class PlatformServiceImplementTest {
                 .name("Test2")
                 .description("Test 2 prueba")
                 .guardName("test2")
+                .videoGames(videoGameList)
                 .realiseDate(LocalDate.of(1930,2,12))
                 .build();
         platformDetailDto2 = PlatformDetailDto

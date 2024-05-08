@@ -23,5 +23,9 @@ public class VideoGameInDto {
     @Lob
     private String image;
     @NotNull
-    private List<UUID> classification_id;
+    private List<UUID> classifications;
+    @NotNull
+    private List<UUID> genders;
+    @NotNull
+    private List<UUID> platforms;
 }

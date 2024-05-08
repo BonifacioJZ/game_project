@@ -7,6 +7,7 @@ import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
 import com.bonifacio.game_project.entities.Gender;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,5 +47,16 @@ public class GenderMapperImplement implements  GenderMapper{
                 .name(gender.getName())
                 .videoGames(videoGames)
                 .build();
+    }
+
+    @Override
+    public Gender updateGender(Gender oldGender, GenderInDto gender) {
+        if(oldGender==null) return null;
+
+        oldGender.setName((StringUtils.isEmpty(gender.getName()))?
+                oldGender.getName():gender.getName());
+        oldGender.setDescription((StringUtils.isEmpty(gender.getDescription()))?
+                oldGender.getDescription():gender.getDescription());
+        return oldGender;
     }
 }

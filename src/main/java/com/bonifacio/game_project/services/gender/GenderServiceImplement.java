@@ -53,4 +53,18 @@ public class GenderServiceImplement implements GenderService{
         return genderMapper.genderToGenderDetails(data,videoGames);
     }
 
+    @Override
+    public GenderOutDto edit(UUID id, GenderInDto gender) {
+        var oldGender = genderRepository.findById(id).orElse(null);
+        if(oldGender==null) return null;
+        var data = genderMapper.updateGender(oldGender,gender);
+        return genderMapper.genderToGenderOutDto(genderRepository.save(data));
+    }
+
+    @Override
+    public void delete(UUID id) {
+        genderRepository.deleteById(id);
+    }
+
+
 }

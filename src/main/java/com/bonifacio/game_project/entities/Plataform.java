@@ -4,16 +4,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -21,13 +16,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 /**
  * This Java class represents a Plataform entity with various fields annotated for database mapping and
  * validation.
  */
 @Entity
-@Table(name = "plataforms")
+@Table(name = "platforms")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,6 +50,8 @@ public class Plataform {
     @NotNull
     @Column(name = "realise_date")
     private LocalDate realiseDate;
+    @ManyToMany(mappedBy = "platforms")
+    private List<VideoGame> videoGames;
     @CreationTimestamp
     @Column(name = "create_at")
     private Instant createAt;

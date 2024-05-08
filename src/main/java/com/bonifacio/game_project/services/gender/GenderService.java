@@ -11,5 +11,6 @@ public interface GenderService {
     List<GenderOutDto> findAll();
     GenderOutDto save(GenderInDto genderInDto);
     GenderDetails show(UUID id);
-
+    GenderOutDto edit(UUID id,GenderInDto gender);
+    void delete(UUID id);
 }

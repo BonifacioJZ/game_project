@@ -81,4 +81,46 @@ public class GenderController {
                 .data(data)
                 .build(),HttpStatus.OK);
     }
+
+    @PutMapping(value = {"{id}","{id}/"})
+    public ResponseEntity<Response<?>> edit(@PathVariable UUID id,@RequestBody @Valid GenderInDto gender,
+                                            BindingResult result){
+        try{
+            if(result.hasErrors())return new ResponseEntity<>(Response.builder()
+                    .status(String.valueOf(HttpStatus.BAD_REQUEST))
+                    .message("Error al Validar")
+                    .success(true)
+                    .data(result.getAllErrors())
+                    .build(),HttpStatus.BAD_REQUEST);
+            var data = genderService.edit(id,gender);
+            if(data==null) return  new ResponseEntity<>(Response.builder()
+                    .status(String.valueOf(HttpStatus.NOT_FOUND))
+                    .message("el genero con id ".concat(String.valueOf(id)).concat(" no existe"))
+                    .success(true)
+                    .build(),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Response.builder()
+                    .status(String.valueOf(HttpStatus.OK))
+                    .success(true)
+                    .message("genero")
+                    .data(data)
+                    .build(),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(Response.builder()
+                    .status(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR))
+                    .success(true)
+                    .message(e.getMessage())
+                    .data(e.getCause())
+                    .build(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping(value = {"{id}","{id}/"})
+    public ResponseEntity<Response<?>> delete(@PathVariable UUID id){
+        genderService.delete(id);
+        return  new ResponseEntity<>(Response.builder()
+                .status(String.valueOf(HttpStatus.OK))
+                .success(true)
+                .message("Eliminado")
+                .data(1)
+                .build(),HttpStatus.OK);
+    }
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import com.bonifacio.game_project.dtos.platform.PlatformDetailDto;
+import com.bonifacio.game_project.dtos.video_game.VideoGameOutDto;
+import com.bonifacio.game_project.mappers.video_game.VideoGameMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -21,11 +23,13 @@ public class PlatformServiceImplement implements PlataformService {
 
     private final PlatformMapper plataformMapper;
     private final PlatformRepository plataformRepository;
+    private final VideoGameMapper videoGameMapper;
 
     @Autowired
-    public PlatformServiceImplement(PlatformMapper plataformMapper, PlatformRepository plataformRepository) {
+    public PlatformServiceImplement(PlatformMapper plataformMapper, PlatformRepository plataformRepository,VideoGameMapper videoGameMapper) {
         this.plataformMapper = plataformMapper;
         this.plataformRepository = plataformRepository;
+        this.videoGameMapper =videoGameMapper;
     }
 
     @Override
@@ -49,10 +53,14 @@ public class PlatformServiceImplement implements PlataformService {
 
     @Override
     public PlatformDetailDto findById(UUID id) {
-        if(id== null)return null;
+        var platform = plataformRepository.findById(id).orElse(null);
+        if(platform==null) return null;
+        List<VideoGameOutDto> videoGames = new ArrayList<>();
 
-        var platform = plataformRepository.findById(id);
-        return platform.map(plataformMapper::platformToPlatFormDetailDto).orElse(null);
+        if(!platform.getVideoGames().isEmpty()){
+            videoGames = platform.getVideoGames().stream().map(videoGameMapper::videoGameToVideoGameDto).toList();
+        }
+        return  plataformMapper.platformToPlatFormDetailDto(platform,videoGames);
     }
 
     @Override
@@ -75,7 +83,11 @@ public class PlatformServiceImplement implements PlataformService {
                         ?platform.get().getRealiseDate():plataformInDto.getRealiceDate());
 
         var out = plataformRepository.save(platform.get());
-        return plataformMapper.platformToPlatFormDetailDto(out);
+        List<VideoGameOutDto> videoGames = new ArrayList<>();
+        if(!out.getVideoGames().isEmpty()){
+            videoGames = out.getVideoGames().stream().map(videoGameMapper::videoGameToVideoGameDto).toList();
+        }
+        return plataformMapper.platformToPlatFormDetailDto(out,videoGames);
     }
 
     @Override

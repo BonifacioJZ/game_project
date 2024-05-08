@@ -13,4 +13,5 @@ public interface VideoGameMapper {
     VideoGameOutDto videoGameToVideoGameDto(VideoGame videoGame);
     VideoGame videoGameInDtoToVideoGame(VideoGameInDto videoGameInDto);
     VideoGameDetails videoGameToVideoGameDetails(VideoGame videoGames, List<ClassificationOutDto> classification);
+    VideoGame videoGameUpdate(VideoGame videoGame,VideoGameInDto videoGameInDto);
 }

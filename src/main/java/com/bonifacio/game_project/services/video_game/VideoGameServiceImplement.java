@@ -12,8 +12,10 @@ import com.bonifacio.game_project.mappers.video_game.VideoGameMapper;
 import com.bonifacio.game_project.repository.ClassificationRepository;
 import com.bonifacio.game_project.repository.VideoGameRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import java.util.*;
 
@@ -32,11 +34,9 @@ public class VideoGameServiceImplement implements VideoGameService {
     @Override
     public List<VideoGameOutDto> findAll() {
         var data = videoGameRepository.findAll();
-        ArrayList<VideoGameOutDto> out = new ArrayList<>();
-        data.forEach(d->{
-            out.add(videoGameMapper.videoGameToVideoGameDto(d));
-        });
-        return out;
+
+        return data.stream().map(videoGameMapper::videoGameToVideoGameDto).toList();
+
     }
 
     @Override
@@ -45,10 +45,10 @@ public class VideoGameServiceImplement implements VideoGameService {
         var data = videoGameMapper.videoGameInDtoToVideoGame(videoGameInDto);
 
         if(videoGameInDto == null) return null;
-        videoGameInDto.getClassification_id().forEach(classi->{
-            var classification = classificationRepository.findById(classi).orElse(null);
-            data.addClassification(classification);
-        });
+        var classifications = videoGameInDto.getClassification_id().stream().map(classi->{
+            return classificationRepository.findById(classi).orElse(null);
+        }).toList();
+        data.setClassifications(classifications);
         return  videoGameRepository.save(data);
     }
 
@@ -57,12 +57,9 @@ public class VideoGameServiceImplement implements VideoGameService {
         var data = videoGameRepository.findById(id).orElse(null);
         if(data==null) return null;
 
-        ArrayList<ClassificationOutDto> classifications = new ArrayList<>();
-
+        List<ClassificationOutDto> classifications = new ArrayList<>();
         if(!data.getClassifications().isEmpty()){
-            data.getClassifications().forEach(classification->{
-                classifications.add(classificationMapper.classificationToClassificationOutDto(classification));
-            });
+           classifications =  data.getClassifications().stream().map(classificationMapper::classificationToClassificationOutDto).toList();
         }
 
         return videoGameMapper.videoGameToVideoGameDetails(data,classifications);

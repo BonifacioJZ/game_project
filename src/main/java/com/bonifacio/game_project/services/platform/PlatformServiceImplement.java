@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PlatformServiceImplement implements PlataformService {
-    
+
 
     private final PlatformMapper plataformMapper;
     private final PlatformRepository plataformRepository;
@@ -32,67 +32,109 @@ public class PlatformServiceImplement implements PlataformService {
         this.videoGameMapper =videoGameMapper;
     }
 
+    /**
+     * Guarda una nueva plataforma en la base de datos.
+     *
+     * @param plataformInDto El objeto PlataformInDto que contiene la información de la plataforma a guardar.
+     * @return La plataforma que ha sido guardada en la base de datos, o null si plataformInDto es nulo.
+     */
     @Override
     public Plataform save(PlataformInDto plataformInDto) {
+        // Convierte el objeto PlataformInDto en un objeto Plataform utilizando el mapeador
         var plataform = plataformMapper.plataformInDtoToPlataform(plataformInDto);
-        if(plataform == null){
+        // Verifica si plataformInDto es nulo y devuelve null si es así
+        if (plataform == null) {
             return null;
         }
+        // Guarda la plataforma en el repositorio y devuelve la plataforma guardada
         return plataformRepository.save(plataform);
     }
 
+
+    /**
+     * Recupera todas las plataformas disponibles.
+     *
+     * @return Una lista de objetos PlataformOutDto que representan las plataformas recuperadas.
+     */
     @Override
     public List<PlataformOutDto> findAll() {
+        // Recupera todas las plataformas del repositorio y las mapea a PlataformOutDto
         var plataforms = plataformRepository.findAll();
-        ArrayList<PlataformOutDto> out = new ArrayList<>();
-        plataforms.forEach(p->{
-            out.add(plataformMapper.plataformToPlataformOutDto(p));
-        });
-        return out;
+        return plataforms.stream().map(plataformMapper::plataformToPlataformOutDto).toList();
     }
 
+
+    /**
+     * Recupera los detalles de una plataforma por su ID.
+     *
+     * @param id El ID de la plataforma que se desea recuperar.
+     * @return Los detalles de la plataforma, incluyendo los videojuegos asociados, o null si la plataforma no existe.
+     */
     @Override
     public PlatformDetailDto findById(UUID id) {
+        // Busca la plataforma en el repositorio por su ID
         var platform = plataformRepository.findById(id).orElse(null);
-        if(platform==null) return null;
+        // Si la plataforma no existe, retorna null
+        if (platform == null) return null;
+
+        // Inicializa una lista para almacenar los videojuegos asociados a la plataforma
         List<VideoGameOutDto> videoGames = new ArrayList<>();
 
-        if(!platform.getVideoGames().isEmpty()){
+        // Si la plataforma tiene videojuegos asociados, los mapea a objetos VideoGameOutDto
+        if (!platform.getVideoGames().isEmpty()) {
             videoGames = platform.getVideoGames().stream().map(videoGameMapper::videoGameToVideoGameDto).toList();
         }
-        return  plataformMapper.platformToPlatFormDetailDto(platform,videoGames);
+
+        // Utiliza el mapeador para obtener los detalles de la plataforma y los videojuegos asociados, y los retorna
+        return plataformMapper.platformToPlatFormDetailDto(platform, videoGames);
     }
 
+
+    /**
+     * Actualiza los detalles de una plataforma existente en la base de datos.
+     *
+     * @param id              El ID de la plataforma que se desea actualizar.
+     * @param plataformInDto  El objeto PlataformInDto que contiene la nueva información de la plataforma.
+     * @return Los detalles actualizados de la plataforma, incluyendo los videojuegos asociados, o null si la plataforma no existe.
+     */
     @Override
     public PlatformDetailDto update(UUID id, PlataformInDto plataformInDto) {
+        // Busca la plataforma en el repositorio por su ID
         var platform = plataformRepository.findById(id);
-        if(platform.isEmpty()) return null;
-        platform.get()
-                .setName(((plataformInDto.getName()==null))
-                        ?platform.get().getName():plataformInDto.getName());
+        // Si la plataforma no existe, retorna null
+        if (platform.isEmpty()) return null;
 
-        platform.get()
-                .setDescription((plataformInDto.getDescription()==null)
-                        ?platform.get().getDescription():plataformInDto.getDescription());
+        // Actualiza los campos de la plataforma con la nueva información del PlataformInDto, si está presente
+        platform.get().setName((plataformInDto.getName() == null) ? platform.get().getName() : plataformInDto.getName());
+        platform.get().setDescription((plataformInDto.getDescription() == null) ? platform.get().getDescription() : plataformInDto.getDescription());
+        platform.get().setGuardName((plataformInDto.getGuardName() == null) ? platform.get().getGuardName() : plataformInDto.getGuardName());
+        platform.get().setRealiseDate((plataformInDto.getRealiceDate() == null) ? platform.get().getRealiseDate() : plataformInDto.getRealiceDate());
 
-        platform.get().setGuardName((plataformInDto.getGuardName()==null)
-        ?platform.get().getGuardName():plataformInDto.getGuardName());
+        // Guarda la plataforma actualizada en el repositorio
+        var updatedPlatform = plataformRepository.save(platform.get());
 
-        platform.get()
-                .setRealiseDate((plataformInDto.getRealiceDate()==null)
-                        ?platform.get().getRealiseDate():plataformInDto.getRealiceDate());
-
-        var out = plataformRepository.save(platform.get());
+        // Inicializa una lista para almacenar los videojuegos asociados a la plataforma
         List<VideoGameOutDto> videoGames = new ArrayList<>();
-        if(!out.getVideoGames().isEmpty()){
-            videoGames = out.getVideoGames().stream().map(videoGameMapper::videoGameToVideoGameDto).toList();
+        // Si la plataforma actualizada tiene videojuegos asociados, los mapea a objetos VideoGameOutDto
+        if (!updatedPlatform.getVideoGames().isEmpty()) {
+            videoGames = updatedPlatform.getVideoGames().stream().map(videoGameMapper::videoGameToVideoGameDto).toList();
         }
-        return plataformMapper.platformToPlatFormDetailDto(out,videoGames);
+
+        // Utiliza el mapeador para obtener los detalles actualizados de la plataforma y los videojuegos asociados, y los retorna
+        return plataformMapper.platformToPlatFormDetailDto(updatedPlatform, videoGames);
     }
 
+
+    /**
+     * Elimina una plataforma de la base de datos por su ID.
+     *
+     * @param id El ID de la plataforma que se desea eliminar.
+     */
     @Override
     public void delete(UUID id) {
+        // Elimina la plataforma del repositorio por su ID
         plataformRepository.deleteById(id);
     }
+
 
 }

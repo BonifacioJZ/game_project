@@ -72,6 +72,7 @@ public class PlatformController {
         }
     }
     @RequestMapping(method = RequestMethod.GET,value = {"{id}","{id}/"})
+    @Transactional
     public ResponseEntity<Response<?>>show(@PathVariable UUID id){
         var data = plataformService.findById(id);
         if (data == null) return new ResponseEntity<>(Response.builder()

@@ -52,6 +52,7 @@ public class PlataformMapperImplement implements PlatformMapper {
                 .name(plataform.getName())
                 .description(plataform.getDescription())
                 .guardName(plataform.getGuardName())
+                .videoGames(videoGameOutDtoList)
                 .realiseDate(plataform.getRealiseDate())
                 .createAt(plataform.getCreateAt())
                 .updateAt(plataform.getUpdateAt())

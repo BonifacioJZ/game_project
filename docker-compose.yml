@@ -3,7 +3,7 @@ services:
     container_name: postgres_db
     image: postgres:bookworm
     restart: always
-    hostname: postgres_db2
+    hostname: postgres_db
     ports:
       - ${LOCAL_PORT_DB}:${DOCKER_PORT_DB}
     environment:
@@ -12,3 +12,14 @@ services:
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - ~Documents/docker-vol/postgres-volume2/data1:/var/lib/postgres/data/
+  java_app:
+      image: pee-java_app:1.0.0
+      build: .
+      ports:
+        - ${LOCAL_PORT_HOST}:8080
+      environment:
+        - DATABASE_URL=${DB_URL}
+        - DATABASE_USERNAME=${DB_USERNAME}
+        - DATABASE_PASSWORD=${DB_PASSWORD}
+      depends_on:
+        - db
